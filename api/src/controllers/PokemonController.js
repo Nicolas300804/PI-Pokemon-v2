@@ -2,19 +2,20 @@ const axios = require("axios");
 const { Pokemon, Type } = require("../db");
 
 const getAllApi = async () => {
-  
+  try {
     const response = await axios.get(
-      "https://pokeapi.co/api/v2/pokemon/offset=0&limit=2"
+      "https://pokeapi.co/api/v2/pokemon?limit=20"
     );
     const pokemons = response.data.results;
+
     const linkToPokemon = [];
-    
+
     pokemons.map((pokemon) =>
-    linkToPokemon.push(axios(pokemon.url).then((response) => response.data))
+      linkToPokemon.push(axios(pokemon.url).then((response) => response.data))
     );
-    const pokemonsFromApi = Promise.all(linkToPokemon).then((response) =>
-    response.map((pokemon) => {
-        console.log("Lista de pokemon controller");
+
+    const PokemonFromApi = Promise.all(linkToPokemon).then((response) =>
+      response.map((pokemon) => {
         return {
           id: pokemon.id,
           name: pokemon.name,
@@ -25,14 +26,16 @@ const getAllApi = async () => {
           speed: pokemon.stats[5].base_stat,
           types: pokemon.types.map((r) => r.type.name),
         };
-      })
-    );
-    if (!pokemonsFromApi) {
-      throw new Error("Pokemon no encontrado en la API")
-    }
-    return pokemonsFromApi
+      }));
+      console.log("Lista de pokemons")
+
+    if(!PokemonFromApi) throw new Error ("No encontramos pokemons en la api")
+    return PokemonFromApi
+  } catch (error) {
+    return error.message
+  }
 };
 
 module.exports = {
-  getAllApi
+  getAllApi,
 };
