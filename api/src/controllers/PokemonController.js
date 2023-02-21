@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { Pokemon, Type } = require("../db");
+const{Op} =require("sequelize")
 
 const getAllApi = async () => {
   try {
@@ -90,37 +91,31 @@ const pokeBYId = async (id) => {
 
 const getPokeByName = async (name) => {
   try {
-    const searchPokeNameDB = await Pokemon.findOne({
-      where: { name }, //encuentra primera coincidencia
-      include: { model: Type },
-    });
-    if (searchPokeNameDB) {
-      let pokedbName = {
-        id: searchPokeNameDB.id,
-        name: searchPokeNameDB.name,
-        image: searchPokeNameDB.sprites.front_default,
-        hp: searchPokeNameDB.stats[0].base_stat,
-        attack: searchPokeNameDB.stats[1].base_stat,
-        defense: searchPokeNameDB.stats[2].base_stat,
-        speed: searchPokeNameDB.stats[5].base_stat,
-        types:
-          searchPokeNameDB.types.length < 2
-            ? [searchPokeNameDB.types[0]]
-            : [searchPokeNameDB.types[0], searchPokeNameDB.types[1]],
-      };
-      return pokedbName;
-    } else {
-      const searchPokeapiName = await axios.get(
-        `${`https://pokeapi.co/api/v2/pokemon/`}${name.toLowerCase()}`
-      ); //obtengo el pokemon de la url/name
-      const foundPokeapiName = objPokeApi(searchPokeapiName.data);
-      console.log("Te muestro el Pokemon con el nombre de", name);
-      console.log('foundPokeapi', foundPokeapiName)
-      return foundPokeapiName;
-    }
+      const searchPokeNameDB = await Pokemon.findOne({
+          where: { name },            //encuentra primera coincidencia
+          include: { model: Type }
+      })
+      if (searchPokeNameDB) {
+          let pokedbName = {
+              id: searchPokeNameDB.id,
+              name: searchPokeNameDB.name,
+              hp: searchPokeNameDB.hp,
+              attack: searchPokeNameDB.attack,
+              defense: searchPokeNameDB.defense,
+              speed: searchPokeNameDB.speed,
+              sprite: searchPokeNameDB.sprite,
+              types: searchPokeNameDB.types.length < 2 ? [searchPokeNameDB.types[0]] : [searchPokeNameDB.types[0], searchPokeNameDB.types[1]]
+          }
+          return pokedbName;
+      }else {
+          const searchPokeapiName = await axios.get(`${`https://pokeapi.co/api/v2/pokemon/`}${name.toLowerCase()}`);       //obtengo el pokemon de la url/name
+          const foundPokeapiName = objPokeApi(searchPokeapiName.data);
+          // console.log('foundPokeapi', foundPokeapiName)
+          return foundPokeapiName
+      }
   } catch (error) {
-    console.log(error);
-    return error;
+      console.log(error);
+      return error;
   }
 };
 
@@ -128,11 +123,11 @@ const objPokeApi = (poke) => {
   const objPokeapi = {
     id: poke.id,
     name: poke.name,
-    life: poke.stats[0].base_stat,
+    image: poke.sprites.front_default,
+    hp: poke.stats[0].base_stat,
     attack: poke.stats[1].base_stat,
     defense: poke.stats[2].base_stat,
     speed: poke.stats[5].base_stat,
-    image: poke.sprites.front_default,
     types:
       poke.types.length < 2
         ? [{ name: poke.types[0].type.name }]
@@ -163,7 +158,6 @@ const postPokedb = async (pokeData) => {
       attack,
       defense,
       speed,
-      sprite,
     });
     const pokeTypedb = await Type.findAll({
       where: { name: types }, //donde el name coincida con los types que me pasan
