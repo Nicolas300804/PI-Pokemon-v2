@@ -111,6 +111,7 @@ const getPokeByName = async (name) => {
           const searchPokeapiName = await axios.get(`${`https://pokeapi.co/api/v2/pokemon/`}${name.toLowerCase()}`);       //obtengo el pokemon de la url/name
           const foundPokeapiName = objPokeApi(searchPokeapiName.data);
           // console.log('foundPokeapi', foundPokeapiName)
+          console.log("Te muestro el pokemon con el nombre de ",name);
           return foundPokeapiName
       }
   } catch (error) {
