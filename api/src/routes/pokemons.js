@@ -37,15 +37,14 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    try {
-        const pokeData = req.body
-        // console.log('holaaaaa', pokeData)
-        await postPokedb(pokeData)
-        return res.status(200).send('Pokemon creado con exito')
+  try {
+    const pokemonToPost = await postPokedb(req.body);
+    if (pokemonToPost.error) throw new Error(pokemonToPost.error);
+    return res.status(200).json(pokemonToPost);
+} catch (error) {
+    return res.status(404).send(error);
+}
 
-    } catch (error) {
-        res.status(400).send('Fallo al crear el pokemon')
-    }
 });
 
 module.exports = router;

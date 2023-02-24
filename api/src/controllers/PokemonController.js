@@ -140,37 +140,20 @@ const objPokeApi = (poke) => {
   return objPokeapi;
 };
 
-const postPokedb = async (pokeData) => {
+const postPokedb = async (pokemon) => {
   try {
-    /* Destrucción del objeto pokeData. */
-    const {
-      name,
-      image,
-      hp,
-      attack,
-      defense,
-      speed,
-      types,
-    } = pokeData;
-    const myPoke = await Pokemon.create({
-      name,
-      image,
-      hp,
-      attack,
-      defense,
-      speed,
-    });
-    const pokeTypedb = await Type.findAll({
-      where: { name: types }, //donde el name coincida con los types que me pasan
-    });
-
-    let createdMyPoke = myPoke.addType(pokeTypedb);
-    return createdMyPoke;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
+    const { name, image, hp, attack, defense, speed, Types } = pokemon;
+    if (!name || !image || !hp || !attack || !defense) throw new Error("Missing information");
+    const pokemonToPost = { name, image, hp, attack, defense, speed };
+    let newPokemon = await Pokemon.create(pokemonToPost);
+    newPokemon.addTypes(Types)
+    return pokemonToPost;
+} catch (error) {
+    return error.message;
+}
 };
+  
+
 
 module.exports = {
   getAllApi,
