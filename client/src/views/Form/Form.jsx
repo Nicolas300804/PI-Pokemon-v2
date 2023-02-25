@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useState } from "react";
 const Form = () => {
   const [form, setForm] = useState({
@@ -20,21 +21,38 @@ const Form = () => {
     types:""
   })
 
-  const changeHandler =(event)=>{
-    const property = event.target.name
-    const value = event.target.value
+  const changeHandler = (event) => {
+    const property = event.target.name;
+    const value = event.target.value;
+    validate({ ...form, [property]: value }); //hace que tanto lo que escribo como lo que se ve en            
+    setForm({ ...form, [property]: value });  //redux devtools se vea a la par 
+  };
 
-    setForm({...form, [property]:value})
+  //defino una función llamada "validate", que toma como argumento el estado "form"
+  const validate = (form) => {
+    if (/^[a-zA-Z]+[- ']{0,1}[a-zA-Z]+$/.test(form.name)) {
+      setErrors({ ...errors, name: "Nombre correcto" }); //el estado "setErrors" se utiliza para actualizar el 
+    } else {                                               //objeto "errors" con el nuevo mensaje de error para 
+      setErrors({ ...errors, name: "Hay un error en nombre" }); //el campo "nombre".
+    }
+    if (form.name === "") setErrors({ ...errors, name: "Nombre vacio" });
+  };
+  //el estado "setErrors" se utiliza para actualizar el objeto "errors" con el nuevo mensaje de error para el campo "nombre".
+
+  const submitHandler=(event)=>{
+    event.preventDefault()
+    axios.post("http://localhost:3001/pokemons", form)
+    .then(res=>alert(res))
   }
 
-  const validate = ()=>{
-    
-  }
+
+  
   return (
-    <form>
+    <form onSubmit={submitHandler}>
       <div>
         <label htmlFor="">Name: </label>
         <input type="text" value={form.name} onChange={changeHandler} name="name"/>
+        {errors.name && <span>{errors.name}</span>}
       </div>
 
       <div>
@@ -66,6 +84,7 @@ const Form = () => {
         <label htmlFor="">Types: </label>
         <input type="text" value={form.types} onChange={changeHandler} name="types"/>
       </div>
+      <button type="submit">Submit</button>
     </form>
   );
 };
