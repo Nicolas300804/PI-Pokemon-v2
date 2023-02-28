@@ -1,7 +1,6 @@
 .paginado{
     display: flex;
-    margin: 10%;
-    
+    margin-left: 594%;
 }
 .number{
     margin-right: 100%;
@@ -9,7 +8,7 @@
 }
 
 .nave{
-    width: 11%;
+    width: 100%;
     display: flex;
     margin-top: 266PX;
     margin-left: -252%;

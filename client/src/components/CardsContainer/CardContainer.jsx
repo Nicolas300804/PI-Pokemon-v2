@@ -1,10 +1,14 @@
 import Card from "../Card/Card";
 import style from "./CardContainer.module.css"
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import Paginado  from "../Paginado/Paginado";
+import SearchBar from "../SearchBar/SearchBar";
+import { getNamePokemons } from "../../redux/actions";
 
 const CardContainer = () => {
+
+  const dispatch = useDispatch()
   
 
   const pokemons = useSelector(state=>state.TotalPokemons)
@@ -14,12 +18,22 @@ const CardContainer = () => {
   const indexOfLastPokemon = currentPage* pokemonPerPage //12
   const indexOfCFirstPokemon= indexOfLastPokemon-pokemonPerPage //0
   const currentPokemons=  pokemons.slice(indexOfCFirstPokemon, indexOfLastPokemon)
+  
+  function handleSearch (event){
+        setCurrentPage(1)
+        dispatch(getNamePokemons(event.target.value))
+    }
 
   const paginado=(pageNumber)=>{
     setCurrentPage(pageNumber)
   }
   return (
     <div className={style.containerCards}>
+       <div className={style.searchCards}>
+                <SearchBar 
+                    handleSearch={handleSearch}
+                />
+            </div>
       {currentPokemons.map(pokemon=>{
         return <Card
             key={pokemon.id}
@@ -33,7 +47,7 @@ const CardContainer = () => {
             types={pokemon.types}
         />
       })}
-      <div>
+      <div className={style.PaginadoContainer}>
         <Paginado
         pokemonPerPage={pokemonPerPage} //Estas son las Props
         pokemons={pokemons.length}

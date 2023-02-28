@@ -19,11 +19,16 @@ export const getPokemons = () => {
 
 export const getPokemonsByID = (id) => {
     return async function (dispatch) {
-      const apiPokemon = await axios.get(`http://localhost:3001/pokemons${id}`);
-      const pokemon = apiPokemon.data  
-      dispatch({ 
-          type: GET_POKEMONSBYID, 
-          payload: pokemon });
+      try {
+        const apiPokemon = await axios.get(`http://localhost:3001/pokemons/${id}`);
+        console.log(id);
+        dispatch({ 
+            type: GET_POKEMONSBYID, 
+            payload: apiPokemon.data });
+        
+      } catch (error) {
+        
+      }
     };
   };
 

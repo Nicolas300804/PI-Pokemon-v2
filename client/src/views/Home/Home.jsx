@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { getPokemons } from "../../redux/actions";
-import { filterByType, filterCreated, orderByName, orderByAttack, getNamePokemons } from "../../redux/actions";
-import SearchBar from "../../components/SearchBar/SearchBar";
+import { filterByType, filterCreated, orderByName, orderByAttack } from "../../redux/actions";
+//import SearchBar from "../../components/SearchBar/SearchBar";
 const Home = () =>{
     const dispatch = useDispatch()
     useEffect(()=>{
@@ -31,19 +31,20 @@ const Home = () =>{
         setAttack(`Ordenado_ataque ${event.target.value}`)
     }
 
-    function handleSearch (event){
-        dispatch(getNamePokemons(event.target.value))
-    }
+    // function handleSearch (event){
+    //     dispatch(getNamePokemons(event.target.value))
+    // }
     return(
         <div>
             
             <h1>Esta es la Home </h1>
-            <div>
+            {/* <div>
                 <SearchBar 
                     handleSearch={handleSearch}
                 />
-            </div>
+            </div> */}
             <div>
+                
                 <select onChange={event=>handleOrderByName(event)}>
                     <option value="asc">Ascendente</option>
                     <option value= "desc">Descendente</option>

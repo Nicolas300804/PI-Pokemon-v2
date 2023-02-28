@@ -7,3 +7,12 @@
     gap: 1em;
     padding: 20px;
 }
+
+.PaginadoContainer{
+    width: 5%;
+}
+
+.searchCards{
+    display: flex;
+    width: 100%;
+}

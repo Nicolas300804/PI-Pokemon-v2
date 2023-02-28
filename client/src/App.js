@@ -9,7 +9,8 @@ function App() {
   return (
     <div className="App">
       {/* <h1>Henry Pokemon</h1> */}
-      {location.pathname !== "/" && <Navbar/>}
+      {/* {location.pathname !== "/" && <Navbar/>} */}
+      <Navbar/>
       
       <Route exact path="/" component={Landing}/>
       <Route exact path="/detail" component={Detail}/>
