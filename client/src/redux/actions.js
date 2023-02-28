@@ -1,6 +1,11 @@
 import axios from "axios"
 export const GET_POKEMONS = "GET_POKEMONS";
 export const GET_POKEMONSBYID = "GET_POKEMONSBYID"
+export const FILTER_BY_TYPE = "FILTER_BY_TYPE"
+export const FILTER_CREATED = "FILTER_CREATED"
+export const FILTER_BY_NAME = "FILTER_BY_NAME"
+export const FILTER_BY_ATTACK = "FILTER_BY_ATTACK"
+export const SEARCH_BY_NAME =  "SEARCH_BY_NAME"
 
 export const getPokemons = () => {
   return async function (dispatch) {
@@ -21,3 +26,49 @@ export const getPokemonsByID = (id) => {
           payload: pokemon });
     };
   };
+
+export const filterByType = (payload)=>{
+  console.log(payload);
+  return function (dispatch)  {
+    dispatch({
+      type: FILTER_BY_TYPE,
+      payload
+    })
+  }
+}
+
+export const filterCreated =(payload)=>{
+  return function(dispatch) {
+    dispatch({
+      type: FILTER_CREATED,
+      payload
+    })
+  }
+}
+
+export const orderByName =(payload)=>{
+  return function (dispatch) {
+    dispatch({
+      type : FILTER_BY_NAME,
+      payload
+    })
+  }
+}
+
+export const orderByAttack =(payload)=>{
+  return function (dispatch) {
+    dispatch({
+      type : FILTER_BY_ATTACK,
+      payload
+    })
+  }
+}
+
+export const getNamePokemons =(name)=>{
+  return function (dispatch) {
+    dispatch({
+      type : SEARCH_BY_NAME,
+      payload:name
+    })
+  } 
+  }

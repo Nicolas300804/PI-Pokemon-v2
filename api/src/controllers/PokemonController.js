@@ -3,20 +3,25 @@ const { Pokemon, Type } = require("../db");
 const{Op} =require("sequelize")
 
 const getAllApi = async () => {
+  const pokemones =[]
+  let PokemonsURL= "https://pokeapi.co/api/v2/pokemon"
+
   try {
-    const response = await axios.get("https://pokeapi.co/api/v2/pokemon");
-    const pokemons = response.data.results;
+    while(pokemones.length<=80){
+      const { data } =await axios.get(PokemonsURL)
+      pokemones.push(...data.results)
 
-    const linkToPokemon = [];
+      PokemonsURL = data.next
+    }
+    const promises = await Promise.all(
+      pokemones.map(async (pokemon)=>{
+      const response = await axios.get(pokemon.url)
+      return response.data
+    }))
 
-    pokemons.map((pokemon) =>
-      linkToPokemon.push(axios(pokemon.url).then((response) => response.data))
-    );
-
-    const PokemonFromApi = Promise.all(linkToPokemon).then((response) =>
-      response.map((pokemon) => {
-        return {
-          id: pokemon.id,
+    const pokemonsAPI = promises.map((pokemon)=>{
+      return {
+        id: pokemon.id,
           name: pokemon.name,
           image: pokemon.sprites.front_default,
           hp: pokemon.stats[0].base_stat,
@@ -24,14 +29,11 @@ const getAllApi = async () => {
           defense: pokemon.stats[2].base_stat,
           speed: pokemon.stats[5].base_stat,
           types: pokemon.types.map((r) => r.type.name),
-        };
-      })
-    );
-    console.log("Lista de pokemons");
-
-    if (!PokemonFromApi) throw new Error("No encontramos pokemons en la api");
-    return PokemonFromApi;
+      }
+    })
+    return pokemonsAPI
   } catch (error) {
+    console.log(error)
     return error.message;
   }
 };
@@ -152,8 +154,6 @@ const postPokedb = async (pokemon) => {
     return error.message;
 }
 };
-  
-
 
 module.exports = {
   getAllApi,

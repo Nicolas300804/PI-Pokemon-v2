@@ -1,0 +1,27 @@
+.paginado{
+    display: flex;
+    margin: 10%;
+    
+}
+.number{
+    margin-right: 100%;
+    
+}
+
+.nave{
+    width: 11%;
+    display: flex;
+    margin-top: 266PX;
+    margin-left: -252%;
+    margin-right: 94%;
+    
+    
+    
+}
+
+
+a:hover{
+    cursor: pointer;
+    color: blue;
+    
+}

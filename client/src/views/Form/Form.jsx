@@ -39,7 +39,7 @@ const Form = () => {
   };
   //el estado "setErrors" se utiliza para actualizar el objeto "errors" con el nuevo mensaje de error para el campo "nombre".
 
-  const submitHandler=(event)=>{
+  const handleSubmit=(event)=>{
     event.preventDefault()
     axios.post("http://localhost:3001/pokemons", form)
     .then(res=>alert(res))
@@ -48,7 +48,7 @@ const Form = () => {
 
   
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="">Name: </label>
         <input type="text" value={form.name} onChange={changeHandler} name="name"/>

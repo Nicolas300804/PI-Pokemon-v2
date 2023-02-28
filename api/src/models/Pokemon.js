@@ -33,6 +33,11 @@ module.exports = (sequelize) => {
     speed:{
       type:DataTypes.INTEGER,
       allowNull: false
+    },
+    created:{
+      type: DataTypes.BOOLEAN,
+      defaultValue:true
+
     }
     
   });
