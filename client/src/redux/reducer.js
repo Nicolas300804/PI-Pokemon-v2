@@ -1,10 +1,11 @@
-import { GET_POKEMONS, GET_POKEMONSBYID, FILTER_BY_TYPE, FILTER_CREATED, FILTER_BY_NAME, FILTER_BY_ATTACK, SEARCH_BY_NAME } from "./actions";
+import { GET_POKEMONS, FILTER_BY_TYPE, FILTER_CREATED, FILTER_BY_NAME, FILTER_BY_ATTACK, SEARCH_BY_NAME, GET_TYPES } from "./actions";
 
 
 const initialState={
     TotalPokemons:[],
     allpokemons:[],
-    Detail:{}
+    types:[]
+    
     
 }
 
@@ -17,7 +18,9 @@ const rootReducer=(state=initialState, action)=>{
             allpokemons:action.payload
         }
         case FILTER_BY_TYPE:
+            /* Crear una copia de la matriz state.allpokemons. */
             const allPokemons = state.allpokemons
+            /* Filtrando los pokemon por tipo. */
             const PokemonsByTypeFiltered = action.payload === "all" ? allPokemons : allPokemons.filter(el => el.types.includes(action.payload))
             return {
                 ...state,
@@ -81,10 +84,15 @@ const rootReducer=(state=initialState, action)=>{
                 ...state,
                 TotalPokemons: state?.allpokemons.filter(pokemon => pokemon.name.includes(action.payload)) //hace un filtro sobre los pokemones que me trae este array para buscar el nombre
             }
-        case GET_POKEMONSBYID:
-            return{
+        // case GET_POKEMONSBYID:
+        //     return{
+        //         ...state,
+        //         Detail:action.payload
+        //     }
+        case GET_TYPES:
+            return {
                 ...state,
-                Detail:action.payload
+                types: action.payload
             }
         default:
             return {...state};

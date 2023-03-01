@@ -1,49 +1,50 @@
+import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getPokemonsByID } from "../../redux/actions";
-import { useEffect } from "react";
+//import { getPokemonsByID } from "../../redux/actions";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 const Detail = () => {
-    const {id} = useParams()
-    
-    const dispatch = useDispatch()
-    const myPokemon = useSelector((state)=>state.Detail)
+  const { id } = useParams();
+  const [detailPKM, setDetailPKM] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/pokemons/${id}`)
+      .then((response) => setDetailPKM(response.data)) //yo accedo al id del pokemon a detallar
+      .catch((error) => console.error(error));
+    console.log(detailPKM);
     console.log(id);
-    useEffect(()=>{
-        dispatch(getPokemonsByID(id)) //yo accedo al id del pokemon a detallar
-    },[id])
+  }, [id]);
 
-    useEffect(()=>{
-        console.log(myPokemon)
-    },[myPokemon])
-
-
-    return (
+  return (
+    <div>
+      {detailPKM && (
         <div>
-            <img src={myPokemon.image}  alt={myPokemon.name}/>
-            <p>Name: {myPokemon.name}</p>
-            <p>ID: {myPokemon.id}</p>
-            <p>HP: {myPokemon.hp}</p>
-            <p>Attack: {myPokemon.attack}</p>
-            <p>Defense: {myPokemon.defense}</p>
-            <p>Speed: {myPokemon.speed}</p>
-            <p>Types: {myPokemon.types}</p>
-            <Link to= {"/home"}>
-                <button>Volver</button>
-            </Link>
+          <p>ID: {detailPKM.id}</p>
+          <p>Name: {detailPKM.name}</p>
+          <img src={detailPKM.image} alt={detailPKM.name} />
+          <p>HP: {detailPKM.hp}</p>
+          <p>Attack: {detailPKM.attack}</p>
+          <p>Defense: {detailPKM.defense}</p>
+          <p>Speed: {detailPKM.speed}</p>
+          <p>Types: {detailPKM.types}</p>
+          <Link to={"/home"}>
+            <button>Volver</button>
+          </Link>
         </div>
-    )
+      )}
+    </div>
+  );
 };
 
-export default Detail
+export default Detail;
 
-
-            // <img src={pokemon.image}  alt={pokemon.name}/>
-            // <p>Name: {pokemon.name}</p>
-            // <p>ID: {pokemon.id}</p>
-            // <p>HP: {pokemon.hp}</p>
-            // <p>Attack: {pokemon.attack}</p>
-            // <p>Defense: {pokemon.defense}</p>
-            // <p>Speed: {pokemon.speed}</p>
-            // <p>Types: {pokemon.types}</p>
+// <img src={pokemon.image}  alt={pokemon.name}/>
+// <p>Name: {pokemon.name}</p>
+// <p>ID: {pokemon.id}</p>
+// <p>HP: {pokemon.hp}</p>
+// <p>Attack: {pokemon.attack}</p>
+// <p>Defense: {pokemon.defense}</p>
+// <p>Speed: {pokemon.speed}</p>
+// <p>Types: {pokemon.types}</p>

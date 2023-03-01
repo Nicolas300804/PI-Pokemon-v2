@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { getAllApi, pokeBYId, getPokeByName, postPokedb } = require("../controllers/PokemonController");
+const { getAllApi, pokeBYId, getPokeByName, postPokedb, getPokeApi_Or_DB } = require("../controllers/PokemonController");
 
 const router = Router();
 
@@ -10,9 +10,9 @@ router.get("/", async (req, res) => {
 
     if (name) {
       //cuando hago el search en el front
-      allPokemon = await getPokeByName(name); // falta crearla
+      allPokemon = await getPokeByName(name); // si hay nombre me mandas el pokemon con el nombre
     } else {
-      allPokemon = await getAllApi();
+      allPokemon = await getPokeApi_Or_DB(); // si no mandas todos
     }
     if (allPokemon.error) {
       throw new Error(allPokemon.error);

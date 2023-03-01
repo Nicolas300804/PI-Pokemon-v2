@@ -3,6 +3,7 @@ export const validate = (inputs) => {
 
     const regexName = /^([^0-9]*)$/;
     const regexUrl = /^(ftp|http|https):\/\/[^ "]+$/
+    /* Una expresión regular que comprueba si la entrada es un número. */
     const regexNumber = /^\d*$/
 
     if (!inputs.name) errors.name = " Name field is required ";

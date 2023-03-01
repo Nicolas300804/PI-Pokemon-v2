@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useState } from "react";
+import { getTypes } from "../../redux/actions";
 const Form = () => {
   const [form, setForm] = useState({
     name: "",
@@ -21,11 +22,19 @@ const Form = () => {
     types:""
   })
 
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false); //Estado para que el Botón de submit este desabilitado si hay un campo incorrecto
+
+
   const changeHandler = (event) => {
     const property = event.target.name;
     const value = event.target.value;
-    validate({ ...form, [property]: value }); //hace que tanto lo que escribo como lo que se ve en            
+
+    /* Comprobando si la entrada está vacía o no. */
+    const isInputValid = value !=="";
+    validate({ ...form, [property]: value }); //hace que tanto lo que escribo como lo que se ve en      
+    validateHP({...form, [property]: value})      
     setForm({ ...form, [property]: value });  //redux devtools se vea a la par 
+    setSubmitButtonDisabled(!isInputValid)
   };
 
   //defino una función llamada "validate", que toma como argumento el estado "form"
@@ -35,14 +44,23 @@ const Form = () => {
     } else {                                               //objeto "errors" con el nuevo mensaje de error para 
       setErrors({ ...errors, name: "Hay un error en nombre" }); //el campo "nombre".
     }
-    if (form.name === "") setErrors({ ...errors, name: "Nombre vacio" });
+    if (form.name === "") setErrors ({ ...errors, name: "Nombre vacio" });
   };
+
+  const validateHP = (form)=>{
+    if (!/^\d*$/.test(form.hp)) {
+      setErrors({ ...errors, hp: "Hay un error en HP" });
+    } else{
+      setErrors({ ...errors, hp: "Correcto" });
+    }
+    if (form.hp === "") setErrors({ ...errors, hp: "HP vacio" });
+  }
   //el estado "setErrors" se utiliza para actualizar el objeto "errors" con el nuevo mensaje de error para el campo "nombre".
 
   const handleSubmit=(event)=>{
     event.preventDefault()
     axios.post("http://localhost:3001/pokemons", form)
-    .then(res=>alert(res))
+    .then(res=>alert("Pokemon Creado ",res))
   }
 
 
@@ -58,11 +76,13 @@ const Form = () => {
       <div>
         <label htmlFor="">Image: </label>
         <input type="text" value={form.image} onChange={changeHandler} name="image"/>
+       
       </div>
 
       <div>
         <label htmlFor="">HP: </label>
         <input type="text" value={form.hp} onChange={changeHandler} name="hp"/>
+        {errors.hp && <span>{errors.hp}</span>}
       </div>
 
       <div>
@@ -84,7 +104,7 @@ const Form = () => {
         <label htmlFor="">Types: </label>
         <input type="text" value={form.types} onChange={changeHandler} name="types"/>
       </div>
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={submitButtonDisabled}>Submit</button>
     </form>
   );
 };
