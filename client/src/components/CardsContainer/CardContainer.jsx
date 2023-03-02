@@ -12,7 +12,7 @@ const CardContainer = () => {
   
 
   const pokemons = useSelector(state=>state.TotalPokemons)
-  console.log(pokemons);
+  
   const [currentPage, setCurrentPage] = useState(1) //guarda en un estado local la pagina actual y arranca en 1 poruq es el inicio
   const [pokemonPerPage, setPokemonPerPage] = useState(12) //guarda en un estado local cuantod pokemons quiero que se vean en la pagina en este caso 12
   const indexOfLastPokemon = currentPage* pokemonPerPage //12

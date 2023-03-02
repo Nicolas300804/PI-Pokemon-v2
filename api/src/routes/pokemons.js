@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
       //cuando hago el search en el front
       allPokemon = await getPokeByName(name); // si hay nombre me mandas el pokemon con el nombre
     } else {
-      allPokemon = await getPokeApi_Or_DB(); // si no mandas todos
+      allPokemon = await getAllApi(); // si no mandas todos
     }
     if (allPokemon.error) {
       throw new Error(allPokemon.error);
@@ -26,12 +26,11 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    //console.log(id);
-    console.log("te muestro el pokemon con el id" ,id);
+    
     const pokeFoundId = await pokeBYId(id);
     if (pokeFoundId) return res.status(200).json(pokeFoundId);
   } catch (error) {
-    console.log("entro error");
+    
     return res.status(404).send("Pokemon not found");
   }
 });

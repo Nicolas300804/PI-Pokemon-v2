@@ -4,7 +4,7 @@ import { GET_POKEMONS, FILTER_BY_TYPE, FILTER_CREATED, FILTER_BY_NAME, FILTER_BY
 const initialState={
     TotalPokemons:[],
     allpokemons:[],
-    types:[]
+    Types:[]
     
     
 }
@@ -92,7 +92,7 @@ const rootReducer=(state=initialState, action)=>{
         case GET_TYPES:
             return {
                 ...state,
-                types: action.payload
+                Types: action.payload
             }
         default:
             return {...state};

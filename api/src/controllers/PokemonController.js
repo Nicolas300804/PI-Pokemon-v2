@@ -34,7 +34,7 @@ const getAllApi = async () => {
     });
     return pokemonsAPI;
   } catch (error) {
-    console.log(error);
+    
     return error.message;
   }
 };
@@ -49,7 +49,7 @@ const getPokeDB = async () => {
       },
     });
   } catch (error) {
-    console.log(error);
+    
     return error;
   }
 };
@@ -60,7 +60,7 @@ const getPokeApi_Or_DB = async () => {
     const pokeDB = await getPokeDB();
     return [...pokeApi, ...pokeDB];
   } catch (error) {
-    console.log(error);
+    
     return error;
   }
 };
@@ -80,7 +80,7 @@ const pokeBYId = async (id) => {
         speed: data.stats[5].base_stat,
         types: data.types.map((r) => r.type.name),
       };
-      //console.log("Te muestro los pokemon con el id", id);
+      
       return pokefound;
     } else {
       const pokemon = await Pokemon.findByPk(id, { include: Type });
@@ -122,12 +122,11 @@ const getPokeByName = async (name) => {
         `${`https://pokeapi.co/api/v2/pokemon/`}${name.toLowerCase()}`
       ); //obtengo el pokemon de la url/name
       const foundPokeapiName = objPokeApi(searchPokeapiName.data);
-      // console.log('foundPokeapi', foundPokeapiName)
-      console.log("Te muestro el pokemon con el nombre de ", name);
+      
       return foundPokeapiName;
     }
   } catch (error) {
-    console.log(error);
+    
     return error;
   }
 };

@@ -6,23 +6,22 @@ export const validate = (inputs) => {
     /* Una expresión regular que comprueba si la entrada es un número. */
     const regexNumber = /^\d*$/
 
-    if (!inputs.name) errors.name = " Name field is required ";
-    if (!regexName.test(inputs.name)) errors.name = " Name can't contain numbers ";
-    if (!inputs.image) errors.image = " Image field is required ";
-    if (!regexUrl.test(inputs.image)) errors.image = " Image must be a valid URL ";
-    if (!inputs.life) errors.life = " Life field is required ";
-    if (!regexNumber.test(inputs.life)) errors.life = " Life must be a number ";
-    if (inputs.life > 80) errors.life = " Life value can't be above 80 ";
-    if (!inputs.attack) errors.attack = " Attack field is required ";
-    if (!regexNumber.test(inputs.attack)) errors.attack = " Attack must be a number ";
-    if (!inputs.defense) errors.defense = " Defense field is required ";
-    if (!regexNumber.test(inputs.defense)) errors.defense = " Defense must be a number ";
-    if (!inputs.speed) errors.speed = " Speed field is required ";
-    if (!regexNumber.test(inputs.speed)) errors.speed = " Speed must be a number ";
-    if (!inputs.height) errors.height = " Height field is required ";
-    if (!regexNumber.test(inputs.height)) errors.height = " Height must be a number ";
-    if (!inputs.weight) errors.weight = " Weight field is required ";
-    if (!regexNumber.test(inputs.weight)) errors.weight = " Weight must be a number ";
+    if (!inputs.name) errors.name = " Se requiere un nombre ";
+    if (!regexName.test(inputs.name)) errors.name = " el nombre no puede contener numeros ";
+    if (!inputs.image) errors.image = " se requiere una imagen ";
+    if (!regexUrl.test(inputs.image)) errors.image = " la imagen debe ser un url valido ";
+    if (!inputs.hp) errors.hp = " se requiere una vida ";
+    if (!regexNumber.test(inputs.hp)) errors.hp = " la vida debe ser un numero ";
+    if (inputs.hp > 100) errors.hp = " el valor de la vida debe ser menor a 100 ";
+    if (!inputs.attack) errors.attack = " se requiere el ataque ";
+    if (!regexNumber.test(inputs.attack)) errors.attack = " el ataque debe ser un numero ";
+    if (!inputs.defense) errors.defense = " se requiere una defensa ";
+    if (!regexNumber.test(inputs.defense)) errors.defense = "la defensa debe ser un numero ";
+    if (!inputs.speed) errors.speed = " se requiere una velocidad ";
+    if (!regexNumber.test(inputs.speed)) errors.speed = " la velocidad debe ser un numero ";
+    if (!inputs.types) errors.types = " se requiere un tipo ";
+    if (!regexNumber.test(inputs.types)) errors.types = " el tipo debe ser un numero";
+    if (inputs.types > 20) errors.types = " el valor de la vida debe ser menor a 20 ";
 
     return errors;
 }

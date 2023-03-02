@@ -3,9 +3,7 @@ const {Type} = require("../db")
 
 const getTypesTotal = async () => {
     try {
-        const foundTypesDB = await Type.findAll({
-            attributes: ['name']
-        });
+        const foundTypesDB = await Type.findAll();
         if(foundTypesDB.length === 0){
             const typesPokeapi = await axios.get("https://pokeapi.co/api/v2/type");
             let typesCreatedDB = typesPokeapi.data.results.map(type => Type.create({name: type.name}));  //me guarda types en DB

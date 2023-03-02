@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import style from "./Detail.module.css"
 import { Link } from "react-router-dom";
 //import { getPokemonsByID } from "../../redux/actions";
 import { useEffect, useState } from "react";
@@ -13,12 +14,11 @@ const Detail = () => {
       .get(`http://localhost:3001/pokemons/${id}`)
       .then((response) => setDetailPKM(response.data)) //yo accedo al id del pokemon a detallar
       .catch((error) => console.error(error));
-    console.log(detailPKM);
-    console.log(id);
+    
   }, [id]);
 
   return (
-    <div>
+    <div className={style.detail}>
       {detailPKM && (
         <div>
           <p>ID: {detailPKM.id}</p>

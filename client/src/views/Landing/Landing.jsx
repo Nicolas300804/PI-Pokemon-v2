@@ -1,7 +1,8 @@
+import style from "./Landing.module.css"
 const Landing = () =>{
     return(
-        <div>
-            <h1>Esta es la Landing</h1>
+        <div className={style.landing}>
+            <h1>Proyecto individual Pokemon</h1>
         </div>
     )
 }

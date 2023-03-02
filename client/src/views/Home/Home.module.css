@@ -1,0 +1,19 @@
+.home{
+    padding-bottom: 25px;
+}
+h1{
+    margin-bottom: 78px;
+}
+
+h4{
+    color:white;
+}
+.filtros{
+    display: flex;
+    height: 25vh;
+}
+
+.abc, .tipos, .created, .ataque{
+    width: 33.33%;
+    height: 100%;
+}

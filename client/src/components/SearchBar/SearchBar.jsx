@@ -10,7 +10,7 @@ const SearchBar =()=>{
     const handleInputChange = (event) =>{
         event.preventDefault()
         setName(event.target.value)
-        console.log(name)
+        
     }
     const handleSumbmit = (event)=>{
         event.preventDefault()

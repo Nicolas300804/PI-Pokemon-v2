@@ -23,19 +23,19 @@ export const getPokemons = () => {
 //     return async function (dispatch) {
 //       try {
 //         const apiPokemon = await axios.get(`http://localhost:3001/pokemons/${id}`);
-//         console.log(id);
+//         
 //         dispatch({
 //             type: GET_POKEMONSBYID,
 //             payload: apiPokemon.data });
 
 //       } catch (error) {
-//           console.log(error);
+//            
 //       }
 //     };
 //   };
 
 export const filterByType = (payload) => {
-  console.log(payload);
+  
   return function (dispatch) {
     dispatch({
       type: FILTER_BY_TYPE,
@@ -82,8 +82,10 @@ export const getNamePokemons = (name) => {
 
 export const getTypes = () => {
   return async function (dispatch) {
-    const apiData = await axios.get("http://localhost:3001/types");
-    const types = apiData.data;
-    dispatch({ type: GET_TYPES, payload: types });
-  };
-};
+      const apiData = await axios.get(
+          "http://localhost:3001/types"
+      );
+      const types = apiData.data;
+      dispatch({ type: GET_TYPES, payload: types })
+  }
+}
