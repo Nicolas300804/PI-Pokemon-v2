@@ -1,6 +1,6 @@
 const axios = require("axios");
 const { Pokemon, Type } = require("../db");
-const { Op } = require("sequelize");
+
 
 const getAllApi = async () => {
   const pokemones = [];
@@ -58,7 +58,7 @@ const getPokeApi_Or_DB = async () => {
   try {
     const pokeApi = await getAllApi();
     const pokeDB = await getPokeDB();
-    return [...pokeApi, ...pokeDB];
+    return [...pokeDB, ...pokeApi];
   } catch (error) {
     
     return error;
@@ -86,6 +86,7 @@ const pokeBYId = async (id) => {
       const pokemon = await Pokemon.findByPk(id, { include: Type });
       if (!pokemon) throw new Error("No hay pokemon con ese id");
       return pokemon;
+      //Busca el pokemon en La DB con su respectivo tipo
     }
   } catch (error) {
     return error.message;
@@ -97,9 +98,9 @@ const getPokeByName = async (name) => {
     const searchPokeNameDB = await Pokemon.findOne({
       where: { name }, //encuentra primera coincidencia
       include: [Type],
-      attributes: {
-        exclude: ["createdAt", "updateAt"],
-      },
+      // attributes: {
+      //   exclude: ["createdAt", "updateAt"],
+      // },
     });
 
     if (searchPokeNameDB) {
@@ -113,13 +114,13 @@ const getPokeByName = async (name) => {
         sprite: searchPokeNameDB.sprite,
         types:
           searchPokeNameDB.types.length < 2
-            ? [searchPokeNameDB.types[0]]
-            : [searchPokeNameDB.types[0], searchPokeNameDB.types[1]],
+            ? [searchPokeNameDB.types[0]] // Si el Pokémon tiene un solo tipo, el objeto de tipo se asigna como un array con un solo elemento.
+            : [searchPokeNameDB.types[0], searchPokeNameDB.types[1]], //Si el Pokémon tiene dos tipos, se asigna como un array con ambos elementos.
       };
       return pokedbName;
     } else {
       const searchPokeapiName = await axios.get(
-        `${`https://pokeapi.co/api/v2/pokemon/`}${name.toLowerCase()}`
+        `${`https://pokeapi.co/api/v2/pokemon/`}${name.toLowerCase()}` 
       ); //obtengo el pokemon de la url/name
       const foundPokeapiName = objPokeApi(searchPokeapiName.data);
       

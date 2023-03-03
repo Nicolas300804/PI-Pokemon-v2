@@ -31,8 +31,8 @@ const Form = () => {
 
   const [disableSubmit, setDisableSubmit] = useState(false);  //Estado para que el Botón de submit este desabilitado si hay un campo incorrecto
   const handleInputChange = (e) => {
-    setPokeData({
-      ...pokeData,
+    setPokeData({                                //cada vez que se ejecute esta funcion a mi estado pokedata
+      ...pokeData,                               //agragale lo que tiene y agregale lo que esta modificando
       [e.target.name]: e.target.value,
     });
 
@@ -47,33 +47,27 @@ const Form = () => {
     setDisableSubmit(!isInputValid)
   };
 
-  // if (Object.keys(errors).length === 0) {
-  //   setErrors({
-  //     name: "",
-  //   image: "",
-  //  hp: "",
-  //attack: "",
-  //defense: "",
-  //speed: "",
-  //height: "",
-  // weight: "",
-  // /* types: "", */
-  // })
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (Object.keys(errors).length === 0) {
         await axios.post("http://localhost:3001/pokemons/", pokeData);
-        alert("Pokemon created succesfully");
+        alert("Pokemon creado correctamente");
       } else {
-        alert("Missing information");
+        alert("Falta Información o falta completar campos");
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  const handleSelect=(e)=>{
+    setPokeData({
+      ...pokeData,
+      types: [...pokeData.types, e.target.value]
+    })
+  }
 
   let types = useSelector((state) => state.Types);
   let dispatch = useDispatch();
@@ -135,17 +129,17 @@ const Form = () => {
       <label htmlFor="types">Types</label>
 
       <select
-        multiple={false}
+        multiple={true}
         value={pokeData.types}
         name="Types"
-        onChange={handleInputChange}
+        onChange={handleSelect}
       >
-        {types.map((type, index) => (
-          <option key={index} value={type.id}>
+        {types.map((type) => (
+          <option  value={type.name}>
             {type.name}
           </option>
         ))}
-        <option value="normal">Normal</option>
+        {/* <option value="normal">Normal</option>
         <option value="fighting">Fighting</option>
         <option value="flying">Flying</option>
         <option value="poison">Poison</option>
@@ -164,7 +158,7 @@ const Form = () => {
         <option value="dark">Dark</option>
         <option value="fairy">Fairy</option>
         <option value="unknown">Unknown</option>
-        <option value="shadow">Shadow</option>
+        <option value="shadow">Shadow</option> */}
       </select>
       <button type="submit" disabled={disableSubmit}>Create</button>
 

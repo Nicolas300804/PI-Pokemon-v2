@@ -28,7 +28,7 @@ const rootReducer=(state=initialState, action)=>{
             }
         case FILTER_CREATED:
             const allPokemons2 = state.allpokemons
-            const createdFilter = action.payload === "Db" ? allPokemons2.filter(el => el.created) : allPokemons2.filter(el=>!el.created)
+            const createdFilter = action.payload === "Db" ? allPokemons2.filter(el => el.createdAt) : allPokemons2.filter(el=>!el.createdAt)
             return{
                 ...state,
                 TotalPokemons: createdFilter
