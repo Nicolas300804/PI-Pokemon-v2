@@ -6,7 +6,7 @@ h1{
 }
 
 h4{
-    color:white;
+    color:black;
 }
 .filtros{
     display: flex;
@@ -16,4 +16,7 @@ h4{
 .abc, .tipos, .created, .ataque{
     width: 33.33%;
     height: 100%;
+}
+.pokedex{
+    color: black;
 }

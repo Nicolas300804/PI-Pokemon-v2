@@ -38,7 +38,7 @@ const Home = () =>{
     return(
         <div className={style.home}>
             
-            <h1>Bienvenido a la Pokedex </h1>
+            <h1 className={style.pokedex}>Bienvenido a la Pokedex </h1>
             {/* <div>
                 <SearchBar 
                     handleSearch={handleSearch}
